@@ -15,7 +15,7 @@ int main()
 	{
 		cin >> choice;
 		tg.Move(choice);
-		//system("clear");
+		system("clear");
 		tg.show();
 	}
 	return 0;
