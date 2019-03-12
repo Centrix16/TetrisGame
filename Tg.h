@@ -41,6 +41,7 @@ public:
 	//закрытые функции
 	void SettingGround(int width, int height);
 	int Square();
+	bool is_det(int pos);
 
 public:
 	//открытые функции-члены
@@ -50,9 +51,10 @@ public:
 	}
 	
 	void show();
+	bool is_Move();
 	
-	void SetDet(int detT);
-	void SetDetKub();
+	void SetDet(int detT, int pos);
+	void SetDetKub(int pos);
 	
 	void Move(char m);
 	void Down();
@@ -74,6 +76,16 @@ void TetrisGame::SettingGround(int width = 10, int height = 20)
 int TetrisGame::Square()
 {
 	return width * height;
+}
+
+bool TetrisGame::is_det(int pos)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		if (detX[i] == pos) return true;
+	}
+	
+	return false;
 }
 
 //
@@ -108,14 +120,26 @@ void TetrisGame::show()
 	} 
 }
 
-void TetrisGame::SetDet(int detT)
+bool TetrisGame::is_Move()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		if (detX[i] >= Square() - width)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+void TetrisGame::SetDet(int detT, int pos)
 {
 	detC = '#';
 	
 	switch(detT)
 	{
 		case 0:
-			SetDetKub();
+			SetDetKub(pos);
 			break;
 		default:
 			cout << "Error! ";
@@ -128,9 +152,9 @@ void TetrisGame::SetDet(int detT)
 	}
 }
 
-void TetrisGame::SetDetKub()
+void TetrisGame::SetDetKub(int pos)
 {
-	detX[0] = 2;
+	detX[0] = pos;
 	detX[1] = detX[0] + 1;
 	detX[2] = detX[0] + width;
 	detX[3] = detX[2] + 1;
@@ -161,15 +185,19 @@ void TetrisGame::Down()
 	{
 		if (detX[i] >= Square() - width)
 		{
+			//если хотя бы 1 часть детали в самом низу поля
 			is_move = false;
+			cout << "H";
 			break;
-		} else if (Ground[detX[i]] != detC)
+		} else if (is_det(detX[i] - width))
 		{
+			//если внизу частьи детали другая деталь
+			cout << "E";
 			continue;
-		} else if (Ground[detX[i]] != ColorProbel)
+		} else
 		{
-			is_move = false;
-			break;
+			cout << "L";
+			is_move = true;
 		}
 	}
 	if (is_move == true)
