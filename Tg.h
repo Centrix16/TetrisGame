@@ -55,6 +55,12 @@ public:
 	
 	void SetDet(int detT, int pos);
 	void SetDetKub(int pos);
+	void SetDetStick(int pos);
+	void SetDetL(int pos);
+	void SetDetAnL(int pos);
+
+	void TurnDet(int detT, int pos);
+	void TurnDetKub(int pos);
 	
 	void Move(char m);
 	void Down();
@@ -134,12 +140,21 @@ bool TetrisGame::is_Move()
 
 void TetrisGame::SetDet(int detT, int pos)
 {
-	detC = '#';
+	detC = 219;
 	
 	switch(detT)
 	{
 		case 0:
 			SetDetKub(pos);
+			break;
+		case 1:
+			SetDetStick(pos);
+			break;
+		case 2:
+			SetDetL(pos);
+			break;
+		case 3:
+			SetDetAnL(pos);
 			break;
 		default:
 			cout << "Error! ";
@@ -158,6 +173,30 @@ void TetrisGame::SetDetKub(int pos)
 	detX[1] = detX[0] + 1;
 	detX[2] = detX[0] + width;
 	detX[3] = detX[2] + 1;
+}
+
+void TetrisGame::SetDetStick(int pos)
+{
+	detX[0] = pos;
+	detX[1] = detX[0] + width;
+	detX[2] = detX[1] + width;
+	detX[3] = detX[2] + width;
+}
+
+void TetrisGame::SetDetL(int pos)
+{
+	detX[0] = pos;
+	detX[1] = detX[0] + width;
+	detX[2] = detX[1] + width;
+	detX[3] = detX[2] + 1;
+}
+
+void TetrisGame::SetDetAnL(int pos)
+{
+	detX[0] = pos;
+	detX[1] = detX[0] + width;
+	detX[2] = detX[1] + width;
+	detX[3] = detX[2] - 1;
 }
 
 void TetrisGame::Move(char m)
@@ -187,16 +226,13 @@ void TetrisGame::Down()
 		{
 			//если хотя бы 1 часть детали в самом низу поля
 			is_move = false;
-			cout << "H";
 			break;
 		} else if (is_det(detX[i] - width))
 		{
 			//если внизу частьи детали другая деталь
-			cout << "E";
 			continue;
 		} else
 		{
-			cout << "L";
 			is_move = true;
 		}
 	}
@@ -220,12 +256,102 @@ void TetrisGame::Down()
 
 void TetrisGame::Left()
 {
+	bool is_move = false;
 	
+	for (int i = 0; i < 4; i++)
+	{
+		if (detX[i] % width == 0)
+		{
+			//если слева части детали левая стенка
+			is_move = false;
+		} else if (is_det(detX[i] - 1))
+		{
+			//если слева части детали другая часть этой детали
+			continue;
+		} else
+		{
+			is_move = true;
+		}
+	}
+	if (is_move == true)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			Ground[detX[i]] = ColorProbel;
+			detX[i] = detX[i] - 1;
+		}
+	} else
+	{
+		return;
+	}
+	
+	for (int i = 0; i < 4; i++)
+	{
+		Ground[detX[i]] = detC;
+	}
 }
 
 void TetrisGame::Right()
 {
+	bool is_move = false;
 	
+	for (int i = 0; i < 4; i++)
+	{
+		if ((detX[i] + 1) % width == 0)
+		{
+			//если справа части детали правая стенка
+			is_move = false;
+		} else if (is_det(detX[i] + 1))
+		{
+			//если слева части детали другая часть этой детали
+			continue;
+		} else
+		{
+			is_move = true;
+		}
+	}
+	if (is_move == true)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			Ground[detX[i]] = ColorProbel;
+			detX[i] = detX[i] + 1;
+		}
+	} else
+	{
+		return;
+	}
+	
+	for (int i = 0; i < 4; i++)
+	{
+		Ground[detX[i]] = detC;
+	}
+}
+
+void TetrisGame::TurnDet(int detT, int pos)
+{
+	detC = 219;
+	
+	switch(detT)
+	{
+		case 0:
+			SetDetKub(pos);
+			break;
+
+		default:
+			cout << "Error! ";
+			return;
+	}
+	
+	for (int i = 0; i < 4; i++)
+	{
+		Ground[detX[i]] = detC;
+	}
+}
+
+void TurnDetKub(int pos)
+{
+	//ничего не делать
 }
 
 #endif
