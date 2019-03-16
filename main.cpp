@@ -10,19 +10,20 @@
 
 using namespace std;
 
+
 typedef TetrisGame Tg;
 
 int main()
-{
-	system("chcp 866>nul");
+{	
 	Tg tg(10, 10);
-	tg.SetDet(1, 9);
+	tg.detT = 2;
+	tg.SetDet(5);
 	tg.show();
-	char choice = 'n';
-	while (choice != 'e')
+	char choice = 'n';	
+	for (;;)
 	{
 		cin >> choice;
-		tg.Move(choice);
+		tg.Move(choice);	
 		//system(CLS);
 		tg.show();
 	}
