@@ -1,4 +1,3 @@
-
 #ifndef TG_H
 #define TG_H
 
@@ -44,10 +43,8 @@ public:
 	
 	vector<char> Ground;
 	
-	bool is_MoveD;
-	bool is_MoveL;
-	bool is_MoveR;
 	bool no_MoveD;
+
 	
 	int detX[4];
 	char detC;
@@ -69,7 +66,7 @@ public:
 	}
 	
 	void show();
-	bool is_Move();
+    int DistanceBottomGround();
 	
 	void SetDet(int pos);
 	void NewDet(int pos);
@@ -148,22 +145,29 @@ void TetrisGame::show()
 	}
 }
 
-bool TetrisGame::is_Move()
+int TetrisGame::DistanceBottomGround()
 {
-	if (is_MoveD == 0)
-	{
-		return false;
-	}
-	return true;
+    int shortestDistance = height;
+
+    for (int i = 0; i < 4; i++)
+    {
+       int iterShortestDistance = detX[i];
+       while (Ground[iterShortestDistance] != ColorProbel)
+       {
+           iterShortestDistance += width;
+       }
+       if ((height - iterShortestDistance / width - 1) < shortestDistance)
+       {
+           shortestDistance = height - iterShortestDistance / width - 1;
+       }
+    }
+    return shortestDistance;
 }
 
 void TetrisGame::SetDet(int pos)
 {
 	detC = '#';
 	
-	is_MoveD = true;
-	is_MoveL = true;
-	is_MoveR = true;
 	switch(detT)
 	{
 		case Kub:
@@ -284,28 +288,25 @@ void TetrisGame::Move(char m)
 
 void TetrisGame::Down()
 {
-	for (int i = 0; i < 4; i++)	
+	bool is_MoveD = true;
+    for (int i = 0; i < 4; i++)	
 	{
 		if (detX[i] >= Square() - width)
 		{
 			//если хотя бы 1 часть детали в самом низу поля	
 			is_MoveD = false;
-			cout << 'd' << is_MoveD << endl;
 			break;
 		} else if (is_det(detX[i] + width))
 		{
 			//если внизу частьи детали другая деталь
-			cout << 'm' << is_MoveD << endl;
 			continue;	
 		} else if (Ground[detX[i] + width] != ColorProbel)
 		{
 			is_MoveD = false;
-			cout << 'q' << is_MoveD << endl;
 			break;
 		} else
 		{
 			is_MoveD = true;
-			cout << 'n' << is_MoveD << endl;
 		}
 	}
 	if (is_MoveD == true)
@@ -327,7 +328,8 @@ void TetrisGame::Down()
 
 void TetrisGame::Left()
 {
-	for (int i = 0; i < 4; i++)
+	bool is_MoveL = true;
+    for (int i = 0; i < 4; i++)
 	{
 		if (detX[i] % width == 0)
 		{
@@ -367,7 +369,8 @@ void TetrisGame::Left()
 
 void TetrisGame::Right()
 {
-	for (int i = 0; i < 4; i++)
+	bool is_MoveR = true;
+    for (int i = 0; i < 4; i++)
 	{
 		if ((detX[i] + 1) % width == 0)
 		{
