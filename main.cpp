@@ -22,10 +22,22 @@ int main()
 	char choice = 'n';	
 	for (;;)
 	{
-		cin >> choice;
+        cin >> choice; if (choice == 'e') break;
 		tg.Move(choice);	
-		//system(CLS);
+		system(CLS);
 		tg.show();
+        if (tg.DistanceBottomGround() == 0)
+        {
+            cout << "IsDown " << endl;
+            for (;;)
+            {
+                cin >> choice; if (choice == 'd') break;
+                tg.detT = 2;
+	            tg.SetDet(5);
+		        system(CLS);
+	            tg.show();
+            }
+        }
 	}
 	return 0;
 }
