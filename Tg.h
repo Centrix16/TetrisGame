@@ -20,8 +20,6 @@ enum TypeDet
 
 //константы для класса TetrisGame
 
-
-
 //нулевое значение - отсутствие символа
 const char ColorProbel =    ' ';
 const char UpRamka =        '_';
@@ -40,20 +38,19 @@ public:
 	//закрытые поля класса
 	int width;
 	int height;
-	
+
 	vector<char> Ground;
-	
+
 	bool no_MoveD;
 
-	
 	int detX[4];
 	char detC;
 	int detT;
-	
+
 	int score;
 	int record;
 	int line;	
-	
+
 	//закрытые функции-члены
 	void SettingGround(int width, int height);
 	int Square();
@@ -64,10 +61,10 @@ public:
 	{
 		SettingGround(width, height);
 	}
-	
+
 	void show();
     int DistanceBottomGround();
-	
+
 	void SetDet(int pos);
 	void NewDet(int pos);
 	void SetDetKub(int pos);
@@ -77,7 +74,7 @@ public:
 	void SetDetT(int pos);
 	void SetDetN(int pos);
 	void SetDetAnN(int pos);
-	
+
 	void Move(char m);	
 	void Down();
 	void Left();
@@ -115,13 +112,14 @@ bool TetrisGame::is_det(int pos)
 	}
 	return false;
 }
-
 //
+
 void TetrisGame::show()
 {
 	cout << "score " << score << endl;
 	cout << "record " << record << endl;
 	cout << "line " << line << endl;
+
 	if (UpRamka)
 	{
 		if (UpLeftRamka) cout << UpLeftRamka;
@@ -148,17 +146,35 @@ void TetrisGame::show()
 int TetrisGame::DistanceBottomGround()
 {
     int shortestDistance = height;
+	cout << "init sD " << shortestDistance << endl;
 
     for (int i = 0; i < 4; i++)
     {
-       int iterShortestDistance = detX[i];
-       while (Ground[iterShortestDistance] != ColorProbel)
+       if (is_det(detX[i] + width) == true)
+	   {
+		   //пропустить итерацию
+		   cout << "pi" << endl;
+		   continue;
+	   }
+	   int iterShortestDistance = detX[i];
+
+       while (Ground[iterShortestDistance + width] == ColorProbel && iterShortestDistance / Square() == 0)
        {
-           iterShortestDistance += width;
+           cout << "isD: " << iterShortestDistance << endl;
+		   /*if (Ground[iterShortestDistance + width] != ColorProbel)
+		   {
+			   cout << "dD" << endl;
+			   iterShortestDistance += width;
+			   cout << "isD = " << iterShortestDistance << endl;
+		   }*/
+		   iterShortestDistance += width;
+		   cout << "isD = " << iterShortestDistance << endl;
        }
-       if ((height - iterShortestDistance / width - 1) < shortestDistance)
+
+       if (((iterShortestDistance - detX[i]) / width - 1) < shortestDistance)
        {
-           shortestDistance = height - iterShortestDistance / width - 1;
+		   shortestDistance = (iterShortestDistance - detX[i]) / width - 1;
+		   cout << "set sD " << shortestDistance << endl << endl;
        }
     }
     return shortestDistance;
@@ -450,16 +466,16 @@ void TetrisGame::TurnDetKub()
 void TetrisGame::TurnDetStick()
 {
 	//2 состояния
-	
+
 	for (int i = 0; i < 4; i++)
 	{
 		Ground[detX[i]] = ColorProbel;
 	}
-	
-	if (detX[0] + width == detX[1]){
+
+	if (detX[0] + width == detX[1])
+	{
 		//нормальное состояние
 		cout << "hi";
-		
 		detX[0] = detX[2] - 2;
 		detX[1] = detX[0] + 1;
 		detX[3] = detX[2] + 1;
@@ -470,7 +486,6 @@ void TetrisGame::TurnDetStick()
 		{
 			Ground[detX[i]] = ColorProbel;
 		}
-		
 		detX[0] = detX[2] - 2 * width;
 		detX[1] = detX[0] + width;
 		detX[3] = detX[2] + width;
@@ -480,12 +495,12 @@ void TetrisGame::TurnDetStick()
 void TetrisGame::TurnDetL()
 {
 	//4 состояния
-	
+
 	for (int i = 0; i < 4; i++)
 	{
 		Ground[detX[i]] = ColorProbel;
 	}
-	
+
 	if (detX[0] + width == detX[1])
 	{
 		//нормальное состояние
@@ -528,7 +543,7 @@ void TetrisGame::TurnDetAnL()
 	{
 		Ground[detX[i]] = ColorProbel;
 	}
-	
+
 	if (detX[0] + width == detX[1])
 	{
 		//нормальное состояние
@@ -562,7 +577,7 @@ void TetrisGame::TurnDetAnL()
 void TetrisGame::TurnDetT()
 {
 	// 4 позиции
-	
+
 	for (int i = 0; i < 4; i++)
 	{
 		Ground[detX[i]] = ColorProbel;
@@ -600,12 +615,12 @@ void TetrisGame::TurnDetT()
 void TetrisGame::TurnDetN()
 {
 	// 2 позиции
-	
+
 	for (int i = 0; i < 4; i++)
 	{
 		Ground[detX[i]] = ColorProbel;
 	}
-	
+
 	if (detX[0] + width == detX[1])
 	{
 		//нормальное состояние
