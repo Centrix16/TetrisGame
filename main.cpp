@@ -10,7 +10,6 @@
 
 using namespace std;
 
-
 typedef TetrisGame Tg;
 
 int main()
@@ -20,23 +19,27 @@ int main()
 	tg.SetDet(5);
 	tg.show();
 	char choice = 'n';	
-	for (;;)
+	while (true)
 	{
         cin >> choice; if (choice == 'e') break;
-		tg.Move(choice);	
-		system(CLS);
+		tg.Move(choice);
+		//system(CLS);
 		tg.show();
+		cout << "dist " << tg.DistanceBottomGround() << endl;
         if (tg.DistanceBottomGround() == 0)
         {
-            cout << "IsDown " << endl;
+            cout << "IsDown!" << endl;
             for (;;)
             {
                 cin >> choice; if (choice == 'd') break;
-                tg.detT = 2;
-	            tg.SetDet(5);
-		        system(CLS);
+                tg.Move(choice);
+				tg.show();
+		        //system(CLS);
 	            tg.show();
             }
+			tg.detT = 2;
+	        tg.SetDet(5);
+			tg.show();
         }
 	}
 	return 0;
