@@ -18,9 +18,14 @@ enum TypeDet
 	AnN
 };
 
+<<<<<<< HEAD
+
+//константы для класса TetrisGame
+=======
 //константы для класса TetrisGame
 
 //нулевое значение - отсутствие символа
+>>>>>>> be13ad7bfa3ab39c142c4d57ee981ba38308ab6e
 const char ColorProbel =    ' ';
 const char UpRamka =        '_';
 const char LeftRamka =      '|';
@@ -30,6 +35,11 @@ const char UpLeftRamka =    '@';
 const char UpRightRamka =   '@';
 const char DownRightRamka = '@';
 const char DownLeftRamka =  '@';
+<<<<<<< HEAD
+
+vector<int> ColorsTG;
+=======
+>>>>>>> be13ad7bfa3ab39c142c4d57ee981ba38308ab6e
 
 //класс TetrisGame
 class TetrisGame
@@ -63,7 +73,17 @@ public:
 	}
 
 	void show();
+<<<<<<< HEAD
+
     int DistanceBottomGround();
+    int DistanceUpGround();
+    int DistanceLeftGround();
+    int DistanceRightGround();
+    int DistanceLGround();
+    int DistanceRGround();
+=======
+    int DistanceBottomGround();
+>>>>>>> be13ad7bfa3ab39c142c4d57ee981ba38308ab6e
 
 	void SetDet(int pos);
 	void NewDet(int pos);
@@ -88,7 +108,16 @@ public:
 	void TurnDetT();
 	void TurnDetN();
 	void TurnDetAnN();
+<<<<<<< HEAD
+
+	void DeletingLine(int dLine);
+	bool is_CleanLine(int dLine);
+	void DeletingLines();
+=======
+>>>>>>> be13ad7bfa3ab39c142c4d57ee981ba38308ab6e
 };
+
+typedef TetrisGame Tg;
 
 //
 void TetrisGame::SettingGround(int width = 10, int height = 20)
@@ -101,6 +130,7 @@ void TetrisGame::SettingGround(int width = 10, int height = 20)
 
 int TetrisGame::Square()
 {
+
 	return width * height;
 }
 
@@ -119,6 +149,12 @@ void TetrisGame::show()
 	cout << "score " << score << endl;
 	cout << "record " << record << endl;
 	cout << "line " << line << endl;
+<<<<<<< HEAD
+	cout << "sbd " << DistanceBottomGround() << "; sud " << DistanceUpGround() << endl;
+	cout << "sld " << DistanceLeftGround() << ", " << DistanceLGround() << ";" << endl;
+	cout << "srd " << DistanceRightGround() << ", " << DistanceRGround() << ";" << endl;
+=======
+>>>>>>> be13ad7bfa3ab39c142c4d57ee981ba38308ab6e
 
 	if (UpRamka)
 	{
@@ -146,20 +182,31 @@ void TetrisGame::show()
 int TetrisGame::DistanceBottomGround()
 {
     int shortestDistance = height;
+<<<<<<< HEAD
+=======
 	cout << "init sD " << shortestDistance << endl;
+>>>>>>> be13ad7bfa3ab39c142c4d57ee981ba38308ab6e
 
     for (int i = 0; i < 4; i++)
     {
        if (is_det(detX[i] + width) == true)
 	   {
 		   //пропустить итерацию
+<<<<<<< HEAD
+=======
 		   cout << "pi" << endl;
+>>>>>>> be13ad7bfa3ab39c142c4d57ee981ba38308ab6e
 		   continue;
 	   }
 	   int iterShortestDistance = detX[i];
 
        while (Ground[iterShortestDistance + width] == ColorProbel && iterShortestDistance / Square() == 0)
        {
+<<<<<<< HEAD
+		   iterShortestDistance += width;
+       }
+       if (Ground[iterShortestDistance + width] != ColorProbel) iterShortestDistance += width;
+=======
            cout << "isD: " << iterShortestDistance << endl;
 		   /*if (Ground[iterShortestDistance + width] != ColorProbel)
 		   {
@@ -170,11 +217,155 @@ int TetrisGame::DistanceBottomGround()
 		   iterShortestDistance += width;
 		   cout << "isD = " << iterShortestDistance << endl;
        }
+>>>>>>> be13ad7bfa3ab39c142c4d57ee981ba38308ab6e
 
        if (((iterShortestDistance - detX[i]) / width - 1) < shortestDistance)
        {
 		   shortestDistance = (iterShortestDistance - detX[i]) / width - 1;
+<<<<<<< HEAD
+=======
 		   cout << "set sD " << shortestDistance << endl << endl;
+>>>>>>> be13ad7bfa3ab39c142c4d57ee981ba38308ab6e
+       }
+    }
+    return shortestDistance;
+}
+
+<<<<<<< HEAD
+int TetrisGame::DistanceUpGround()
+{
+	int shortestDistance = height;
+
+    for (int i = 0; i < 4; i++)
+    {
+       if (is_det(detX[i] - width) == true)
+	   {
+		   //пропустить итерацию
+		   continue;
+	   }
+	   int iterShortestDistance = detX[i];
+
+       while (Ground[iterShortestDistance - width] == ColorProbel && iterShortestDistance / Square() == 0)
+       {
+		   iterShortestDistance -= width;
+       }
+       if (Ground[iterShortestDistance - width] != ColorProbel) iterShortestDistance -= width;
+
+       if (((detX[i] - iterShortestDistance) / width - 1) < shortestDistance)
+       {
+		   shortestDistance = (detX[i] - iterShortestDistance) / width - 1;
+       }
+    }
+    return shortestDistance;
+}
+
+int TetrisGame::DistanceLeftGround()
+{
+	int shortestDistance = width;
+
+    for (int i = 0; i < 4; i++)
+    {
+       if (is_det(detX[i] - 1) == true)
+	   {
+		   //пропустить итерацию
+		   continue;
+	   }
+	   int iterShortestDistance = detX[i];
+
+       while (Ground[iterShortestDistance - 1] == ColorProbel && iterShortestDistance % width != 0)
+       {
+		   iterShortestDistance--;
+       }
+
+       iterShortestDistance--;
+
+       if (((detX[i] - iterShortestDistance) - 1) < shortestDistance)
+       {
+		   shortestDistance = (detX[i] - iterShortestDistance) - 1;
+       }
+    }
+    return shortestDistance;
+}
+
+int TetrisGame::DistanceRightGround()
+{
+	int shortestDistance = width;
+
+    for (int i = 0; i < 4; i++)
+    {
+       if (is_det(detX[i] + 1) == true)
+	   {
+		   //пропустить итерацию
+		   continue;
+	   }
+	   int iterShortestDistance = detX[i];
+
+       while (Ground[iterShortestDistance + 1] == ColorProbel && iterShortestDistance % width != width - 1)
+       {
+		   iterShortestDistance++;
+       }
+
+       iterShortestDistance++;
+
+       if (((iterShortestDistance - detX[i]) - 1) < shortestDistance)
+       {
+		   shortestDistance = (iterShortestDistance - detX[i]) - 1;
+       }
+    }
+    return shortestDistance;
+}
+
+int TetrisGame::DistanceLGround()
+{
+	int shortestDistance = width;
+
+    for (int i = 0; i < 4; i++)
+    {
+       if (is_det(detX[i] - 1) == true)
+	   {
+		   //пропустить итерацию
+		   continue;
+	   }
+	   int iterShortestDistance = detX[i];
+
+       while (iterShortestDistance % width != 0)
+       {
+		   iterShortestDistance--;
+       }
+
+       iterShortestDistance--;
+
+       if (((detX[i] - iterShortestDistance) - 1) < shortestDistance)
+       {
+		   shortestDistance = (detX[i] - iterShortestDistance) - 1;
+       }
+    }
+    return shortestDistance;
+}
+
+int TetrisGame::DistanceRGround()
+{
+	int shortestDistance = width;
+
+    for (int i = 0; i < 4; i++)
+    {
+       if (is_det(detX[i] + 1) == true)
+	   {
+		   //пропустить итерацию
+		   continue;
+	   }
+	   int iterShortestDistance = detX[i];
+
+       while (iterShortestDistance % width != width - 1)
+       {
+		   iterShortestDistance++;
+       }
+
+       iterShortestDistance++;
+
+       if (((iterShortestDistance - detX[i]) - 1) < shortestDistance)
+       {
+		   shortestDistance = (iterShortestDistance - detX[i]) - 1;
        }
     }
     return shortestDistance;
@@ -183,7 +374,13 @@ int TetrisGame::DistanceBottomGround()
 void TetrisGame::SetDet(int pos)
 {
 	detC = '#';
+
+=======
+void TetrisGame::SetDet(int pos)
+{
+	detC = '#';
 	
+>>>>>>> be13ad7bfa3ab39c142c4d57ee981ba38308ab6e
 	switch(detT)
 	{
 		case Kub:
@@ -460,12 +657,129 @@ void TetrisGame::TurnDet()
 
 void TetrisGame::TurnDetKub()
 {	
+<<<<<<< HEAD
+	return;
+=======
+>>>>>>> be13ad7bfa3ab39c142c4d57ee981ba38308ab6e
 	//ничего не делать
 }
 
 void TetrisGame::TurnDetStick()
 {
 	//2 состояния
+<<<<<<< HEAD
+	int sost;
+	if (detX[0] + width == detX[1]) sost = 0;
+	else sost = 1;
+
+	if (sost == 0)
+	{
+		if (DistanceLGround() == 0)
+		{
+			//если слева стенка
+			if (DistanceRightGround() >= 3)
+			{
+				//поворот + двойной сдвиг вправо
+				for (int i = 0; i < 4; i++)
+				{
+					Ground[detX[i]] = ColorProbel;
+				}
+				detX[0] = detX[2] - 2;
+				detX[1] = detX[0] + 1;
+				detX[3] = detX[2] + 1;
+				for (int i = 0; i < 4; i++) detX[i] += 2;
+			}
+			else
+			{
+				return;
+			}
+		} else if (DistanceRGround() == 0)
+		{
+			//если справа стенка
+			if (DistanceLeftGround() >= 3)
+			{
+				//поворот + сдвиг влево
+				for (int i = 0; i < 4; i++)
+				{
+					Ground[detX[i]] = ColorProbel;
+				}
+				detX[0] = detX[2] - 2;
+				detX[1] = detX[0] + 1;
+				detX[3] = detX[2] + 1;
+				for (int i = 0; i < 4; i++) detX[i]--;
+			} else
+			{
+				return;
+			}
+		} else if (DistanceLGround() == 1)
+		{
+			//если до левой стенки 1 пропуск
+			if (DistanceLeftGround() == 0)
+			{
+				return;
+			} else if (DistanceRightGround() >= 2)
+			{
+				//поворот + сдвиг вправо
+				for (int i = 0; i < 4; i++)
+				{
+					Ground[detX[i]] = ColorProbel;
+				}
+				
+				detX[0] = detX[2] - 2;
+				detX[1] = detX[0] + 1;
+				detX[3] = detX[2] + 1;
+				for (int i = 0; i < 4; i++) detX[i]++;
+			} else
+			{
+				return;
+			}
+		} else if (DistanceLeftGround() >= 2)
+		{
+			//если слева до постройки больше 2 пропусков
+			if (DistanceRightGround() >= 1)
+			{
+				//поворот
+				for (int i = 0; i < 4; i++)
+				{
+					Ground[detX[i]] = ColorProbel;
+				}
+				
+				detX[0] = detX[2] - 2;
+				detX[1] = detX[0] + 1;
+				detX[3] = detX[2] + 1;
+			} else
+			{
+				return;
+			}
+		} else
+		{
+			return;
+		}
+	} else if (sost == 1)
+	{
+		if (DistanceBottomGround() >= 1)
+		{
+			//если снизу больше одного пропуска
+			if (DistanceUpGround() >= 2)
+			{
+				//поворот
+				for (int i = 0; i < 4; i++)
+				{
+					Ground[detX[i]] = ColorProbel;
+				}
+				
+				detX[0] = detX[2] - 2 * width;
+				detX[1] = detX[0] + width;
+				detX[3] = detX[2] + width;
+			} else
+			{
+				return;
+			}
+		} else
+		{
+			return;
+		}
+=======
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -489,12 +803,122 @@ void TetrisGame::TurnDetStick()
 		detX[0] = detX[2] - 2 * width;
 		detX[1] = detX[0] + width;
 		detX[3] = detX[2] + width;
+>>>>>>> be13ad7bfa3ab39c142c4d57ee981ba38308ab6e
 	}
 }
 
 void TetrisGame::TurnDetL()
 {
 	//4 состояния
+<<<<<<< HEAD
+	int sost;
+	if (detX[0] + width == detX[1]) sost = 0;
+	else if (detX[0] - 1 == detX[1]) sost = 1;
+	else if (detX[0] - width == detX[1]) sost = 2;
+	else sost = 3;
+
+	if (sost == 0)
+	{
+		if (DistanceLGround() == 0)
+		{
+			//слева стенка
+			if (DistanceRightGround() >= 1 && Ground[detX[0] + 2] == ColorProbel && Ground[detX[1] + 2] == ColorProbel)
+			{
+				//поворот + сдвиг вправо
+				for (int i = 0; i < 4; i++) Ground[detX[i]] = ColorProbel;
+				detX[0]++;
+				detX[1] -= width;
+				detX[2] -= 2 * width + 1;
+				detX[3] -= width + 2;
+				for (int i = 0; i < 4; i++) detX[i]++;
+			} else
+			{
+				return;
+			}
+			
+		} else if (Ground[detX[0] + 1] == ColorProbel && Ground[detX[1] + 1] == ColorProbel)
+		{
+			if (DistanceLeftGround() >= 1)
+			{
+				//поворот
+				for (int i = 0; i < 4; i++) Ground[detX[i]] = ColorProbel;
+				detX[0]++;
+				detX[1] -= width;
+				detX[2] -= 2 * width + 1;
+				detX[3] -= width + 2;
+			} else
+			{
+				return;
+			}
+			
+		} else
+		{
+			return;
+		}
+		
+	} else if (sost == 1)
+	{
+		if (DistanceBottomGround() >= 1 && Ground[detX[0] + 2 * width] == ColorProbel && Ground[detX[1] + 2 * width] == ColorProbel)
+		{
+			//если снизу свободно
+			//поворот
+			for (int i = 0; i < 4; i++) Ground[detX[i]] = ColorProbel;
+			detX[0] += 2 * width;
+			detX[1] += width + 1;
+			detX[2] += 2;
+			detX[3] -= width - 1;
+		}
+		else
+		{
+			return;
+		}
+		
+	} else if (sost == 2)
+	{
+		if (DistanceLGround() == 0 && Ground[detX[0] + 1] == ColorProbel && Ground[detX[1] + 1] == ColorProbel)
+		{
+			if (DistanceRightGround() >= 1)
+			{
+				//поворот + сдвиг вправо
+				for (int i = 0; i < 4; i++) Ground[detX[i]] = ColorProbel;
+				detX[0] -= width + 2;
+				detX[1]--;
+				detX[2] += width;
+				detX[3]++;
+				for (int i = 0; i < 4; i++) detX[i]++;
+			} else
+			{
+				return;
+			}
+			
+		} else if (DistanceLeftGround() >= 1 && Ground[detX[0] + 2] == ColorProbel && Ground[detX[1] + 2] == ColorProbel)
+		{
+			//поворот
+			for (int i = 0; i < 4; i++) Ground[detX[i]] = ColorProbel;
+			detX[0] -= width + 2;
+			detX[1]--;
+			detX[2] += width;
+			detX[3]++;
+		} else
+		{
+			return;
+		}
+		
+	} else if (sost == 3)
+	{
+		if (DistanceBottomGround() >= 1 && Ground[detX[0] - width] && Ground[detX[1] - width])
+		{
+			//поворот
+			for (int i = 0; i < 4; i++) Ground[detX[i]] = ColorProbel;
+			detX[0] -= width - 1;
+			detX[2] += width - 1;
+			detX[3] += 2 * width;
+		} else
+		{
+			return;
+		}
+		
+=======
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -532,14 +956,55 @@ void TetrisGame::TurnDetL()
 		detX[0] -= width - 1;
 		detX[2] += width - 1;
 		detX[3] += 2 * width;
+>>>>>>> be13ad7bfa3ab39c142c4d57ee981ba38308ab6e
 	}
 }
 
 void TetrisGame::TurnDetAnL()
 {
 	//4 состояния
+<<<<<<< HEAD
+
+	int sost;
+	if (detX[0] + width == detX[1]) sost = 0;
+	else if (detX[0] - 1 == detX[1]) sost = 1;
+	else if (detX[0] - width == detX[1]) sost = 2;
+	else sost = 3;
+
+	if (sost == 0)
+	{
+		if (DistanceLGround() == 0)
+		{
+			
+			//усли мы у левой стенки
+			if (DistanceRightGround() >= 1 && Ground[detX[0] - 1] == ColorProbel && Ground[detX[1] - 1] == ColorProbel)
+			{
+				//поворот + сдвиг вправо
+
+			} else
+			{
+				return;
+			}
+		} (DistanceLeftGround() >= 1)
+		{
+			if (Ground[detX[0] - 1])//pltcm 
+		}
+	} else if (sost == 1)
+	{
+
+	} else if (sost == 2)
+	{
+
+	} else if (sost == 3)
+	{
+
+	}
+
+	/*for (int i = 0; i < 4; i++)
+=======
 	
 	for (int i = 0; i < 4; i++)
+>>>>>>> be13ad7bfa3ab39c142c4d57ee981ba38308ab6e
 	{
 		Ground[detX[i]] = ColorProbel;
 	}
@@ -571,7 +1036,11 @@ void TetrisGame::TurnDetAnL()
 		detX[1] += width + 1;
 		detX[2] += 2 * width;
 		detX[3] += width - 1;
+<<<<<<< HEAD
+	}*/
+=======
 	}
+>>>>>>> be13ad7bfa3ab39c142c4d57ee981ba38308ab6e
 }
 
 void TetrisGame::TurnDetT()
@@ -582,7 +1051,11 @@ void TetrisGame::TurnDetT()
 	{
 		Ground[detX[i]] = ColorProbel;
 	}
+<<<<<<< HEAD
+
+=======
 	
+>>>>>>> be13ad7bfa3ab39c142c4d57ee981ba38308ab6e
 	if (detX[0] + width - 1 == detX[1])
 	{
 		//нормальное состояние
@@ -664,4 +1137,63 @@ void TetrisGame::TurnDetAnN()
 	}
 }
 
+<<<<<<< HEAD
+void TetrisGame::DeletingLine(int dLine)
+{
+	/*удаляет линию и сдвигает вниз все постройки*/
+	if (dLine == 0)
+	{
+		for (int i = 0; i < width; i++)
+		{
+			Ground[i] = ColorProbel;
+		}
+		return;
+	}
+	
+	int currentPos = dLine * width - width;
+	char currentChar;
+	while ((currentPos) / width > 0)
+	{
+		for (int i = 0; i < width; i++)
+		{
+			currentChar = Ground[currentPos];
+			currentPos += width;
+			Ground[currentPos] = currentChar;
+			currentPos -= width - 1;
+		}
+		currentPos -= 2 * width;
+	}
+}
+
+bool TetrisGame::is_CleanLine(int dLine)
+{
+	int currentPos = dLine * width;
+	for (int i = 0; i < width; i++)
+	{
+		if (Ground[currentPos++] == ColorProbel)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
+void TetrisGame::DeletingLines()
+{
+	int currentLine = height - 1;
+	while (currentLine >= 0)
+	{
+		if (is_CleanLine(currentLine) == true)
+		{
+			DeletingLine(currentLine);
+		} else
+		{
+			currentLine--;
+		}
+	}
+}
+
 #endif
+=======
+#endif
+>>>>>>> be13ad7bfa3ab39c142c4d57ee981ba38308ab6e

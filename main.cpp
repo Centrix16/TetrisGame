@@ -1,19 +1,17 @@
 #include <iostream>
-#include "tg.h"
 #include <cstdlib>
+#include <ctime>
 
-#if _WIN32
-#define CLS "cls"
-#else
-#define CLS "clear"
-#endif
+#include "scripts.h"
+//#include "tg.h"
 
 using namespace std;
 
-typedef TetrisGame Tg;
-
 int main()
 {	
+<<<<<<< HEAD
+	classic();
+=======
 	Tg tg(10, 10);
 	tg.detT = 2;
 	tg.SetDet(5);
@@ -42,5 +40,6 @@ int main()
 			tg.show();
         }
 	}
+>>>>>>> be13ad7bfa3ab39c142c4d57ee981ba38308ab6e
 	return 0;
 }
