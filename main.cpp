@@ -31,14 +31,22 @@ int main() {
 	texture.loadFromFile(TEXTURES);
 
 	sf::Sprite sprite(texture);
-	
+	sprite.setTextureRect(sf::IntRect(0, 0, tile_width, tile_width));
+
+	int dx = 0; // horisontal move tatramino
+	bool rotate = 0;
+
+	float time = 0;
+	float timer = 0;
+	float delay = 0.3;
+
+	sf::Clock clock;
+	sf::Event event;
+
 	while (window.isOpen()) {
-		sf::Event event;
-
-		int dx = 0; // horisontal move tatramino
-		bool rotate = 0;
-
-		sprite.setTextureRect(sf::IntRect(0, 0, tile_width, tile_width));
+		time = clock.getElapsedTime().asSeconds();
+		clock.restart();
+		timer += time;
 
 		while (window.pollEvent(event)) {
 			if (event.type == sf::Event::Closed)
@@ -63,6 +71,12 @@ int main() {
 				a[i].x = p.x - x;
 				a[i].y = p.y + y;
 			}
+		}
+
+		if (timer > delay) {
+			for (int i = 0; i < 4; i++)
+				a[i].y++;
+			timer = 0;
 		}
 
 		int type = 2; // type tetramino
