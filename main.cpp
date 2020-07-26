@@ -31,21 +31,49 @@ int main() {
 	texture.loadFromFile(TEXTURES);
 
 	sf::Sprite sprite(texture);
-	sprite.setTextureRect(sf::IntRect(0, 0, tile_width, tile_width));
-
+	
 	while (window.isOpen()) {
 		sf::Event event;
+
+		int dx = 0; // horisontal move tatramino
+		bool rotate = 0;
+
+		sprite.setTextureRect(sf::IntRect(0, 0, tile_width, tile_width));
 
 		while (window.pollEvent(event)) {
 			if (event.type == sf::Event::Closed)
 				window.close();
+			if (event.type == sf::Event::KeyPressed)
+				if (event.key.code == sf::Keyboard::Up)
+					rotate = true;
+				else if (event.key.code == sf::Keyboard::Left)
+					dx = -1;
+				else if (event.key.code == sf::Keyboard::Right)
+					dx = 1;
 		}
 
-		int type = 0; // type tetramino
-		for (int i = 0; i < 4; i++) {
-			a[i].x = figures[type][i] % 2;
-			a[i].y = figures[type][i] / 2;
+		for (int i = 0; i < 4; i++)
+			a[i].x += dx;
+
+		if (rotate) {
+			Point p = a[1]; // center of rotate
+			for (int i = 0; i < 4; i++) {
+				int x = a[i].y - p.y;
+				int y = a[i].x - p.x;
+				a[i].x = p.x - x;
+				a[i].y = p.y + y;
+			}
 		}
+
+		int type = 2; // type tetramino
+		if (a[0].x == 0)
+			for (int i = 0; i < 4; i++) {
+				a[i].x = figures[type][i] % 2;
+				a[i].y = figures[type][i] / 2;
+			}
+
+		dx = 0;
+		rotate = 0;
 
 		window.clear(sf::Color::White);
 
